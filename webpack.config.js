@@ -1,13 +1,12 @@
 const path = require("path");
+
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-    mode: process.env.NODE_ENV || "development",
     entry: "./src/index.js",
     output: {
         filename: "bundle.js",
         path: path.resolve(__dirname, "dist"),
-        //!Il metodo path.resolve () risolve una sequenza di percorsi (o segmenti di percorso) in un percorso assoluto.
     },
     devServer: {
         contentBase: "dist/", // Relative directory for base of server
@@ -46,10 +45,21 @@ module.exports = {
                     },
                 },
             },
+            {
+                test: /\.(gif|png|jpe?g|svg)$/i,
+                use: [
+                    {
+                        loader: "file-loader",
+                        options: {
+                            name: "[name].[ext]",
+                        },
+                    },
+                    "image-webpack-loader",
+                ],
+            },
         ],
     },
     plugins: [
-        // ! per ogni pagina html basta duplicare questo e cambiare con i nomi rilevanti
         new HtmlWebpackPlugin({
             filename: "index.html",
             template: "./src/index.html",
